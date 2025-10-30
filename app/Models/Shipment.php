@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 
 class Shipment extends Model
 {
@@ -35,6 +37,16 @@ class Shipment extends Model
         'details',
     ];
 
+    public static function booted(): void
+    {
+      static::created(function ($shipment)
+      {
+          if($shipment->status === self::STATUS_UNASSIGNED) {
+              Cache::forget('shipments_unassigned');
+          }
+      });
+    }
+
 
 //    public function setStatusAttribute($status)
 //    {
@@ -58,6 +70,11 @@ class Shipment extends Model
 
             }
         );
+    }
+
+    public function shipment_docs(): HasMany
+    {
+        return $this->hasMany(ShipmentDocuments::class, 'shipment_id', 'id');
     }
 
 }
