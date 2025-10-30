@@ -99,4 +99,13 @@
 
         <a href="{{ route('shipments.index') }}" class="back-btn">Back to Shipments</a>
     </div>
+    <div class="documents">
+        <span class="label">Documents:</span>
+
+        @foreach($shipment->shipment_docs as $document)
+            <a target="_blank" href="/storage/documents/{{$document->shipment_document}}"> {{$document->shipment_document}}</a>
+        @endforeach
+
+
+    </div>
 @endsection

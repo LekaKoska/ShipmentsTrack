@@ -80,7 +80,7 @@
                     <p>{{ $shipment->details }}</p>
                 </div>
 
-                    <a href="{{route('shipments.show', $shipment->id)}}">Details</a>
+                    <a href="{{route('shipments.show', $shipment->id)}}">View</a>
 
             </div>
         @endforeach

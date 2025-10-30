@@ -79,10 +79,8 @@
 
     <div class="form-container">
         <h1>Create Shipment</h1>
-        <form action="{{ route('shipments.store') }}" method="POST">
+        <form action="{{ route('shipments.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
-
-            {{-- Title --}}
             <div class="form-group">
                 <label for="title">Title</label>
                 <input type="text" name="title" id="title" value="{{ old('title') }}" placeholder="Enter a title">
@@ -91,7 +89,6 @@
                 @enderror
             </div>
 
-            {{-- From City --}}
             <div class="form-group">
                 <label for="from_city">From City</label>
                 <input type="text" name="from_city" id="from_city" value="{{ old('from_city') }}"
@@ -101,7 +98,6 @@
                 @enderror
             </div>
 
-            {{-- From Country --}}
             <div class="form-group">
                 <label for="from_country">From Country</label>
                 <input type="text" name="from_country" id="from_country" value="{{ old('from_country') }}"
@@ -111,7 +107,6 @@
                 @enderror
             </div>
 
-            {{-- To City --}}
             <div class="form-group">
                 <label for="to_city">To City</label>
                 <input type="text" name="to_city" id="to_city" value="{{ old('to_city') }}" placeholder="Enter to city">
@@ -120,7 +115,6 @@
                 @enderror
             </div>
 
-            {{-- To Country --}}
             <div class="form-group">
                 <label for="to_country">To Country</label>
                 <input type="text" name="to_country" id="to_country" value="{{ old('to_country') }}"
@@ -130,7 +124,6 @@
                 @enderror
             </div>
 
-            {{-- Price --}}
             <div class="form-group">
                 <label for="price">Price</label>
                 <input type="number" name="price" id="price" value="{{ old('price') }}" placeholder="Enter price">
@@ -139,7 +132,6 @@
                 @enderror
             </div>
 
-            {{-- Status --}}
             <div class="form-group">
                 <label for="status">Status</label>
                 <select name="status">
@@ -152,7 +144,6 @@
                 @enderror
             </div>
 
-            {{-- Details --}}
             <div class="form-group">
                 <label for="details">Details</label>
                 <textarea name="details" id="details" placeholder="Enter details">{{ old('details') }}</textarea>
@@ -161,13 +152,17 @@
                 @enderror
             </div>
 
-            {{-- Hidden user_id --}}
             <div class="form-group">
                 <label for="user_id">User_id</label>
                 <input type="text" name="user_id" id="user_id" value="{{ old('user_id') }}" placeholder="Enter user_id">
                 @error('user_Id')
                 <span class="error">{{ $message }}</span>
                 @enderror
+            </div>
+
+            <div class="form-group">
+                <label for="document">Document</label>
+                <input type="file" name="documents[]" multiple required>
             </div>
 
             <button type="submit" class="submit-btn">Create Shipment</button>
