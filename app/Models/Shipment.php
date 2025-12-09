@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Cache;
 
@@ -13,14 +14,14 @@ class Shipment extends Model
     use HasFactory;
     protected $table = 'shipment';
 
-    const STATUS_IN_PROGRESS = 'in_progress';
+    const STATUS_STARTED = 'started';
     const STATUS_UNASSIGNED  = 'unassigned';
     const STATUS_COMPLETED   = 'completed';
     const STATUS_PROBLEM     = 'problem';
 
 
     const ALLOWED_STATUS = [
-        self::STATUS_IN_PROGRESS,
+        self::STATUS_STARTED,
         self::STATUS_UNASSIGNED,
         self::STATUS_COMPLETED,
         self::STATUS_PROBLEM,
@@ -35,29 +36,8 @@ class Shipment extends Model
         'status',
         'user_id',
         'details',
+        'client_id'
     ];
-
-    public static function booted(): void
-    {
-      static::created(function ($shipment)
-      {
-          if($shipment->status === self::STATUS_UNASSIGNED) {
-              Cache::forget('shipments_unassigned');
-          }
-      });
-    }
-
-
-//    public function setStatusAttribute($status)
-//    {
-//        if(!array($status, self::ALLOWED_STATUS))
-//        {
-//            throw new \Exception('Invalid status');
-//        }
-//
-//        $this->attributes['status'] = $status;
-//    }
-
     public function status(): Attribute
     {
         return Attribute::make(
@@ -71,10 +51,18 @@ class Shipment extends Model
             }
         );
     }
-
     public function shipment_docs(): HasMany
     {
         return $this->hasMany(ShipmentDocuments::class, 'shipment_id', 'id');
+    }
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(related: User::class, foreignKey: 'user_id', ownerKey: 'id');
+    }
+
+    public function scopeUnassignedShipments($query)
+    {
+        return $query->where('status', Shipment::STATUS_UNASSIGNED);
     }
 
 }
