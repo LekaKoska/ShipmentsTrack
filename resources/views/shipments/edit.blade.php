@@ -1,4 +1,4 @@
-@php use App\Models\Shipment; @endphp
+@php use App\Enums\UserRole;use App\Models\Shipment;use App\Models\User; @endphp
 
 @extends('layout')
 
@@ -78,11 +78,19 @@
 
     <div class="form-container">
         <h1>Create Shipment</h1>
-        <form action="{{ route('shipments.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('shipments.update', ['shipment' => $shipment->id]) }}" method="POST"
+              enctype="multipart/form-data">
             @csrf
+            @method('PUT')
             <div class="form-group">
                 <label for="title">Title</label>
-                <input type="text" name="title" id="title" value="{{ old('title') }}" placeholder="Enter a title">
+                <input
+                    type="text"
+                    name="title"
+                    id="title"
+                    value="{{ old('title', $shipment->title ?? '') }}"
+                    placeholder="Enter a title"
+                >
                 @error('title')
                 <span class="error">{{ $message }}</span>
                 @enderror
@@ -90,8 +98,13 @@
 
             <div class="form-group">
                 <label for="from_city">From City</label>
-                <input type="text" name="from_city" id="from_city" value="{{ old('from_city') }}"
-                       placeholder="Enter from city">
+                <input
+                    type="text"
+                    name="from_city"
+                    id="from_city"
+                    value="{{ old('from_city', $shipment->from_city ?? '') }}"
+                    placeholder="Enter from city"
+                >
                 @error('from_city')
                 <span class="error">{{ $message }}</span>
                 @enderror
@@ -99,8 +112,13 @@
 
             <div class="form-group">
                 <label for="from_country">From Country</label>
-                <input type="text" name="from_country" id="from_country" value="{{ old('from_country') }}"
-                       placeholder="Enter from country">
+                <input
+                    type="text"
+                    name="from_country"
+                    id="from_country"
+                    value="{{ old('from_country', $shipment->from_country ?? '') }}"
+                    placeholder="Enter from country"
+                >
                 @error('from_country')
                 <span class="error">{{ $message }}</span>
                 @enderror
@@ -108,7 +126,13 @@
 
             <div class="form-group">
                 <label for="to_city">To City</label>
-                <input type="text" name="to_city" id="to_city" value="{{ old('to_city') }}" placeholder="Enter to city">
+                <input
+                    type="text"
+                    name="to_city"
+                    id="to_city"
+                    value="{{ old('to_city', $shipment->to_city ?? '') }}"
+                    placeholder="Enter to city"
+                >
                 @error('to_city')
                 <span class="error">{{ $message }}</span>
                 @enderror
@@ -116,8 +140,13 @@
 
             <div class="form-group">
                 <label for="to_country">To Country</label>
-                <input type="text" name="to_country" id="to_country" value="{{ old('to_country') }}"
-                       placeholder="Enter to country">
+                <input
+                    type="text"
+                    name="to_country"
+                    id="to_country"
+                    value="{{ old('to_country', $shipment->to_country ?? '') }}"
+                    placeholder="Enter to country"
+                >
                 @error('to_country')
                 <span class="error">{{ $message }}</span>
                 @enderror
@@ -125,7 +154,13 @@
 
             <div class="form-group">
                 <label for="price">Price</label>
-                <input type="number" name="price" id="price" value="{{ old('price') }}" placeholder="Enter price">
+                <input
+                    type="number"
+                    name="price"
+                    id="price"
+                    value="{{ old('price', $shipment->price ?? '') }}"
+                    placeholder="Enter price"
+                >
                 @error('price')
                 <span class="error">{{ $message }}</span>
                 @enderror
@@ -135,7 +170,10 @@
                 <label for="status">Status</label>
                 <select name="status">
                     @foreach(Shipment::ALLOWED_STATUS as $status)
-                        <option value="{{$status}}">{{$status}}</option>
+                        <option value="{{ $status }}"
+                            {{ old('status', $shipment->status ?? '') === $status ? 'selected' : '' }}>
+                            {{ $status }}
+                        </option>
                     @endforeach
                 </select>
                 @error('status')
@@ -145,24 +183,35 @@
 
             <div class="form-group">
                 <label for="details">Details</label>
-                <textarea name="details" id="details" placeholder="Enter details">{{ old('details') }}</textarea>
+                <textarea
+                    name="details"
+                    id="details"
+                    placeholder="Enter details"
+                >{{ old('details', $shipment->details ?? '') }}</textarea>
                 @error('details')
                 <span class="error">{{ $message }}</span>
                 @enderror
             </div>
+            <div class="form-group">
+                <label for="user_id">Trucker ID</label>
+                <input type="number" name="user_id" required value="{{$shipment->user_id}}">
+            </div>
+
             @if($errors->has('client_id'))
-             <p>{{$errors->first('client_id')}}</p>
+                <p>{{$errors->first('client_id')}}</p>
             @endif
             <div class="form-group">
                 <label for="client_id">Client ID</label>
                 <input type="number" name="client_id">
             </div>
+
             <div class="form-group">
                 <label for="document">Document</label>
-                <input type="file" name="documents[]" multiple required>
+                <input type="file" name="documents[]" multiple>
             </div>
 
             <button type="submit" class="submit-btn">Create Shipment</button>
         </form>
+
     </div>
 @endsection

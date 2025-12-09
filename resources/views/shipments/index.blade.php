@@ -1,3 +1,4 @@
+@php use App\Models\User; @endphp
 @extends('layout')
 
 @section('section')
@@ -10,18 +11,21 @@
             gap: 20px;
             font-family: Arial, sans-serif;
         }
+
         .shipment {
             background: #f9f9f9;
             border: 1px solid #ddd;
             border-radius: 8px;
             padding: 16px 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
         }
+
         .shipment h2 {
             margin: 0 0 10px;
             font-size: 20px;
             color: #333;
         }
+
         .shipment .row {
             display: flex;
             justify-content: space-between;
@@ -29,10 +33,12 @@
             font-size: 14px;
             color: #555;
         }
+
         .shipment .label {
             font-weight: bold;
             color: #222;
         }
+
         .shipment .details {
             margin-top: 10px;
             font-size: 14px;
@@ -80,7 +86,19 @@
                     <p>{{ $shipment->details }}</p>
                 </div>
 
-                    <a href="{{route('shipments.show', $shipment->id)}}">View</a>
+                <a href="{{route('shipments.show', $shipment->id)}}">View</a>
+                <form action="{{route('shipments.assigned', $shipment->id)}}" method="POST">
+                    @csrf
+                    <select name="user_id">
+                        <option selected disabled>None</option>
+                        @foreach(User::all() as $user)
+                            <option value="{{$user->id}}">
+                                {{$user->name}}
+                            </option>
+                        @endforeach
+                    </select>
+                    <button>Assigned</button>
+                </form>
 
             </div>
         @endforeach
