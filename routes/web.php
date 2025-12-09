@@ -14,6 +14,7 @@ Route::get('/dashboard', function () {
 
 
 Route::resource('shipments', ShipmentsController::class);
+Route::post('/shipment/{shipment}/assigned', [ShipmentsController::class, 'assignedUser'])->name('shipments.assigned');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
