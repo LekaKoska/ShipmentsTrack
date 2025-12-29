@@ -103,4 +103,5 @@
             </div>
         @endforeach
     </div>
+    <livewire:shipments-assigned-list> </livewire:shipments-assigned-list>
 @endsection
