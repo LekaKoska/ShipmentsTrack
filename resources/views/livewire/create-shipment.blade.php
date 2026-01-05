@@ -1,5 +1,9 @@
 <div class="max-w-3xl mx-auto bg-white p-6 rounded-xl shadow-md">
     <form class="space-y-6" wire:submit="submit">
+
+        @foreach($errors->all() as $error)
+            {{$error}}
+        @endforeach
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">
                 Title
@@ -14,7 +18,7 @@
                 <label class="block text-sm font-medium text-gray-700 mb-1">
                     From City
                 </label>
-                <input wire:model="from_city" type="text" placeholder="Enter from city"
+                <input wire:model="fromCity" type="text" placeholder="Enter from city"
                     class="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
                 >
             </div>
@@ -23,10 +27,10 @@
                 <label class="block text-sm font-medium text-gray-700 mb-1">
                     From Country
                 </label>
-                <input wire:model="from_country" type="text" placeholder="Enter from country"
+                <input wire:model="fromCountry" type="text" placeholder="Enter from country"
                     class="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
                 >
-                @error('from_country')
+                @error('fromCountry')
                 <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                 @enderror
             </div>
@@ -37,10 +41,10 @@
                 <label class="block text-sm font-medium text-gray-700 mb-1">
                     To City
                 </label>
-                <input wire:model="to_city" type="text" placeholder="Enter to city"
+                <input wire:model="toCity" type="text" placeholder="Enter to city"
                     class="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
                 >
-                @error('to_city')
+                @error('toCity')
                 <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                 @enderror
             </div>
@@ -49,10 +53,10 @@
                 <label class="block text-sm font-medium text-gray-700 mb-1">
                     To Country
                 </label>
-                <input wire:model="to_country" type="text" placeholder="Enter to country"
+                <input wire:model="toCountry" type="text" placeholder="Enter to country"
                     class="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
                 >
-                @error('to_country')
+                @error('toCountry')
                 <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                 @enderror
             </div>
