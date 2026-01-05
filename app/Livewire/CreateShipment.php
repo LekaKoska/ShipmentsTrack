@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Http\Requests\ShipmentsRequest;
 use App\Models\Shipment;
+use App\Services\ShipmentService;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -30,7 +31,6 @@ class CreateShipment extends Component
         $this->validate([
             'clientId' => "required|exists:users,id"
         ]);
-
     }
 
     public function render()
@@ -43,9 +43,16 @@ class CreateShipment extends Component
      $this->statuses = Shipment::ALLOWED_STATUS;
     }
 
-    public function submit()
+    public function submit(ShipmentService $shipmentService)
     {
        $request = new ShipmentsRequest();
-       $response = $this->validate($request->rules());
+       $data = $this->validate($request->rules());
+       $data['from_city'] = $this->fromCity;
+       $data['to_city'] = $this->toCity;
+       $data['from_country'] = $this->fromCountry;
+       $data['to_country'] = $this->toCountry;
+       $data['client_id'] = $this->clientId;
+       $shipmentService->store($data);
+
     }
 }
