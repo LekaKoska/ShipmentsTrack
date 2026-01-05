@@ -12,16 +12,16 @@ class ShipmentsRequest extends FormRequest
     {
         return [
             'title' => 'required',
-            'from_city' => 'required',
-            'from_country' => 'required',
-            'to_city' => 'required',
-            'to_country' => 'required',
+            'fromCity' => 'required',
+            'fromCountry' => 'required',
+            'toCity' => 'required',
+            'toCountry' => 'required',
             'price' => 'required',
             'status' => 'required|in:in_progress,unassigned,completed,problem',
             'details' => 'required',
             'documents' => 'required|array',
             'document.*' => 'file|mimes:jpeg,jpg,png,webp,pdf,doc,docx|max:10240',
-            'client_id' => ['required', new ClientUserRole()],
+            'clientId' => ['required', new ClientUserRole()],
         ];
     }
 }
