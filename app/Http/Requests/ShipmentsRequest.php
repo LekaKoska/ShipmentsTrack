@@ -20,7 +20,7 @@ class ShipmentsRequest extends FormRequest
             'status' => 'required|in:in_progress,unassigned,completed,problem',
             'details' => 'required',
             'documents' => 'required|array',
-            'document.*' => 'file|mimes:jpeg,jpg,png,webp,pdf,doc,docx|max:10240',
+            'documents.*' => 'file|mimes:jpeg,jpg,png,webp,pdf,doc,docx|max:10240',
             'clientId' => ['required', new ClientUserRole()],
         ];
     }
