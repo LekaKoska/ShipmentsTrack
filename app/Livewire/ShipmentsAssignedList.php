@@ -2,9 +2,7 @@
 
 namespace App\Livewire;
 
-use Livewire\Attributes\Session;
 use Livewire\Component;
-use function Laravel\Prompts\alert;
 
 class ShipmentsAssignedList extends Component
 {
